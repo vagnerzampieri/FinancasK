@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.scott_pilgrim.financask.R
+import com.example.scott_pilgrim.financask.extension.dataFormatada
 import com.example.scott_pilgrim.financask.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ListaTransacoesAdapter(transacoes: List<Transacao>,
                              context: Context) : BaseAdapter() {
@@ -23,18 +22,11 @@ class ListaTransacoesAdapter(transacoes: List<Transacao>,
 
         val transacao = getItem(position)
 
-        viewCriada.transacao_valor.setText(transacao.getValor().toString())
-        viewCriada.transacao_categoria.setText(transacao.getCategoria())
-        viewCriada.transacao_data.setText(dataFormatada(transacao.getData()))
+        viewCriada.transacao_valor.text = transacao.valor.toString()
+        viewCriada.transacao_categoria.text = transacao.categoria
+        viewCriada.transacao_data.text = transacao.data.dataFormatada()
 
         return viewCriada
-    }
-
-//     TODO this is not be here
-    private fun dataFormatada(data: Calendar): String {
-        val formatoBrasileiro = "dd/MM/yyyy"
-        val format = SimpleDateFormat(formatoBrasileiro)
-        return format.format(data.time)
     }
 
     override fun getItem(position: Int): Transacao {
