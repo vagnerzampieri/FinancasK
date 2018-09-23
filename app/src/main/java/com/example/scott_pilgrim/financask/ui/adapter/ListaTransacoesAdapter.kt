@@ -14,11 +14,9 @@ import com.example.scott_pilgrim.financask.model.Tipo
 import com.example.scott_pilgrim.financask.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
-class ListaTransacoesAdapter(transacoes: List<Transacao>,
-                             context: Context) : BaseAdapter() {
-
-    private val transacoes = transacoes
-    private val context = context
+class ListaTransacoesAdapter(
+        private val transacoes: List<Transacao>,
+        private val context: Context) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val viewCriada = LayoutInflater.from(context)
@@ -26,19 +24,45 @@ class ListaTransacoesAdapter(transacoes: List<Transacao>,
 
         val transacao = getItem(position)
 
-        if(transacao.tipo == Tipo.RECEITA) {
-            viewCriada.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.receita))
-            viewCriada.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_receita)
-        } else {
-            viewCriada.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.despesa))
-            viewCriada.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_despesa)
-        }
-
-        viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
-        viewCriada.transacao_categoria.text = transacao.categoria.truncate()
-        viewCriada.transacao_data.text = transacao.data.dataFormatada()
+        adicionaValor(transacao, viewCriada)
+        adicionaIcone(transacao, viewCriada)
+        adicionaCategoria(transacao, viewCriada)
+        adicionaData(transacao, viewCriada)
 
         return viewCriada
+    }
+
+    private fun adicionaValor(transacao: Transacao, viewCriada: View) {
+        viewCriada.transacao_valor.setTextColor(
+                retornaCor(transacao.tipo)
+        )
+        viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
+    }
+
+    private fun adicionaIcone(transacao: Transacao, viewCriada: View) {
+        viewCriada.transacao_icone.setBackgroundResource(retornaIcone(transacao.tipo))
+    }
+
+    private fun adicionaCategoria(transacao: Transacao, viewCriada: View) {
+        viewCriada.transacao_categoria.text = transacao.categoria.truncate()
+    }
+
+    private fun adicionaData(transacao: Transacao, viewCriada: View) {
+        viewCriada.transacao_data.text = transacao.data.dataFormatada()
+    }
+
+    private fun retornaCor(tipo: Tipo) : Int {
+        return when (tipo) {
+            Tipo.RECEITA -> ContextCompat.getColor(context, R.color.receita)
+            Tipo.DESPESA -> ContextCompat.getColor(context, R.color.despesa)
+        }
+    }
+
+    private fun retornaIcone(tipo: Tipo) : Int {
+        return when(tipo) {
+            Tipo.RECEITA -> R.drawable.icone_transacao_item_receita
+            Tipo.DESPESA -> R.drawable.icone_transacao_item_despesa
+        }
     }
 
     override fun getItem(position: Int): Transacao {
