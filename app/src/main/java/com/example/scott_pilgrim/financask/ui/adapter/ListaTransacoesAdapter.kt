@@ -51,17 +51,17 @@ class ListaTransacoesAdapter(
         viewCriada.transacao_data.text = transacao.data.dataFormatada()
     }
 
-    private fun retornaCor(tipo: Tipo) : Int {
-        return when (tipo) {
-            Tipo.RECEITA -> ContextCompat.getColor(context, R.color.receita)
-            Tipo.DESPESA -> ContextCompat.getColor(context, R.color.despesa)
-        }
-    }
-
     private fun retornaIcone(tipo: Tipo) : Int {
         return when(tipo) {
             Tipo.RECEITA -> R.drawable.icone_transacao_item_receita
             Tipo.DESPESA -> R.drawable.icone_transacao_item_despesa
+        }
+    }
+
+    private fun retornaCor(tipo: Tipo) : Int {
+        return when (tipo) {
+            Tipo.RECEITA -> ContextCompat.getColor(context, R.color.receita)
+            Tipo.DESPESA -> ContextCompat.getColor(context, R.color.despesa)
         }
     }
 
