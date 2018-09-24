@@ -19,7 +19,8 @@ class ListaTransacoesAdapter(
         private val context: Context) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val viewCriada = LayoutInflater.from(context)
+        val viewCriada = LayoutInflater
+                .from(context)
                 .inflate(R.layout.transacao_item, parent, false)
 
         val transacao = getItem(position)
